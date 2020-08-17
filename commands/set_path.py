@@ -1,6 +1,7 @@
 import os
 from texts import console_colors
 
+
 cmdTitle = 'SetPath'
 
 def run_command(path, path_to_library_folder):

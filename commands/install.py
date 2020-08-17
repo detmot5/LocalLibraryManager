@@ -2,10 +2,7 @@ import os, sys
 from shutil import copytree
 from enum import Enum
 from texts import console_colors
-
-lib_path = ''
-libs = []
-target_dir = 'lib'
+from paths import libs_path, libs_list, target_dir
 
 cmdTitle = 'Install'
 
@@ -18,17 +15,13 @@ class Install_Status(Enum):
 
 
 
-def get_libs():
-    global libs, lib_path
-    libs = os.listdir(lib_path)
-
 def print_install_info(libname):
     print(f"Installing {libname}...")
 
 def check_lib(libname):
-    print(f"{console_colors.OKGREEN}{cmdTitle}: Looking for library: {libname} in {lib_path}{console_colors.ENDC}")
+    print(f"{console_colors.OKGREEN}{cmdTitle}: Looking for library: {libname} in {libs_path}{console_colors.ENDC}")
 
-    if libname not in libs:                  return Install_Status.lib_not_found
+    if libname not in libs_list:                  return Install_Status.lib_not_found
 
     print(f"{console_colors.OKGREEN}{cmdTitle}: Checking the project/{target_dir} folder{console_colors.ENDC}")
     if libname in os.listdir(target_dir):    return Install_Status.already_installed
@@ -37,7 +30,7 @@ def check_lib(libname):
 
 
 def install_lib(libname):
-    src_lib_dir = f"{lib_path}/{libname}"
+    src_lib_dir = f"{libs_path}/{libname}"
     target_lib_dir = f"./{target_dir}/{libname}"
     
     
@@ -52,20 +45,14 @@ def install_lib(libname):
     
 
 # externally called functions
-def get_lib_path(file_path):
-    global lib_path
-    f = open(file_path,'r')
-    lib_path = f.readline()
-    f.close()
-    return lib_path
+
 
 def run_command(libname):
-    get_libs()
     status = install_lib(libname)
     if(status == Install_Status.success): color = console_colors.OKGREEN
     else: color = console_colors.FAIL
     
-    return f"{color}{status.value}{console_colors.ENDC}"
+    return f"\n{color}{console_colors.UNDERLINE}{status.value}{console_colors.ENDC}"
 
 
 

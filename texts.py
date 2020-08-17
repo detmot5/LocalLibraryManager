@@ -1,8 +1,9 @@
 title = '***llm - Local Library Manager***'
 description = 'Easy management of your local libraries '
 
-
-
+invoking_install = 'Invoking: Install command...\n'
+invoking_setPath = 'Invoking: Set-path command...\n'
+invoking_list = 'Invoking: list command...\n'
 
 
 class console_colors:
@@ -14,6 +15,8 @@ class console_colors:
     ENDC = '\033[0m'
     BOLD = '\033[1m'
     UNDERLINE = '\033[4m'
+    CYAN = '\u001b[36m'
+    Magenta = '\u001b[35m'
 
 
 
