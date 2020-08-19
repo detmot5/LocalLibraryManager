@@ -7,6 +7,7 @@ from commands import set_path
 from commands import install
 from commands import add_new_lib
 from commands import list
+from commands import delete
 
 def get_lib_path(file_path):
     global libs_path
@@ -30,6 +31,12 @@ def cli():
 def install_lib(libname):
     click.echo(f"{console_colors.CYAN}{texts.invoking_install}{console_colors.ENDC}")
     click.echo(install.run_command(libname))
+
+@click.command("delete", help='delete library from project')
+@click.argument('libname')
+@click.option("--fully", help='delete library from library manager')
+def delete_lib(libname, fully):
+    delete.run_command(libname)
 
 @click.command("set-lib-path", help='set source of libraries')
 @click.argument('path')
@@ -63,6 +70,7 @@ def lib_list(installed):
 
 def commands_init():            
     cli.add_command(install_lib)
+    cli.add_command(delete_lib)
     cli.add_command(set_lib_path)
     cli.add_command(lib_list)
     cli.add_command(add_lib)
