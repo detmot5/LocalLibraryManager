@@ -2,19 +2,14 @@ import os, click
 import texts
 from texts import print_title
 from texts import console_colors
-from paths import libs_path, target_dir
+from paths import target_dir, get_libs_path, read_libraries 
 from commands import set_path
 from commands import install
 from commands import add_new_lib
 from commands import list
 from commands import delete
 
-def get_lib_path(file_path):
-    global libs_path
-    f = open(file_path,'r')
-    libs_path = f.readline()
-    f.close()
-    return libs_path
+file_with_library_path = ""
 
 os.system("cls")
 
@@ -29,6 +24,7 @@ def cli():
 @click.command("install", help='install library in project')
 @click.argument('libname')
 def install_lib(libname):
+    
     click.echo(f"{console_colors.CYAN}{texts.invoking_install}{console_colors.ENDC}")
     click.echo(install.run_command(libname))
 
@@ -48,7 +44,10 @@ def set_lib_path(path):
 @click.command("add-lib", help='add new library to llm')
 @click.argument('path-to-lib')
 def add_lib(path_to_lib):
-    add_new_lib.run_command(path_to_lib)
+    if add_new_lib.run_command(path_to_lib) == True:
+      click.echo(f"{console_colors.OKGREEN}Library added successfully{console_colors.ENDC}")
+    else:
+      click.echo(f"{console_colors.FAIL}Error adding lib{console_colors.ENDC}")
 
 
 
@@ -59,7 +58,7 @@ def lib_list(installed):
     res = False
     if False == installed:
         click.echo(f"{console_colors.CYAN}Libraries:{console_colors.ENDC}")
-        res = list.run_command(libs_path)
+        res = list.run_command(get_libs_path())
     else:
         click.echo(f"{console_colors.CYAN}Installed libraries:{console_colors.ENDC}")
         res = list.run_command(target_dir)
@@ -77,5 +76,6 @@ def commands_init():
 
 if __name__ == '__main__':
     print_title()
+    read_libraries()
     commands_init()
     cli()

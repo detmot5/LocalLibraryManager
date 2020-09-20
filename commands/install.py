@@ -31,7 +31,6 @@ def check_lib(libname):
 
 
 def install_lib(libname):
-    print(is_target_dir_exists())
     if not is_target_dir_exists(): os.mkdir('lib')
 
     src_lib_dir = f"{libs_path}/{libname}"

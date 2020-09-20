@@ -1,9 +1,9 @@
 from os import listdir
 from os.path import isdir
-from paths import libs_list, is_target_dir_exists
+from paths import get_libs, is_target_dir_exists
 
 def is_LLM_library(lib):
-    if lib in libs_list: return True
+    if lib in get_libs(): return True
     return False
 
 
